@@ -34,4 +34,23 @@ productContoller.post = (req, res) => {
     }
 };
 
+productContoller.patch = (req, res) => {
+    const { productId } = req.params;
+    const { name, description } = req.body;
+
+    const index = products.findIndex((product) => product.id === +productId);
+
+    if (index !== -1) {
+        const product = {
+            ...products[index],
+            name: name ? name : products[index].name,
+            description: description ? description : products[index].description,
+        };
+        products[index] = product;
+        res.json(product);
+    } else {
+        res.status(404).send('El producto no existe');
+    }
+}
+
 module.exports = productContoller;
