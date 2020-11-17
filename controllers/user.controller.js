@@ -1,3 +1,4 @@
+const User = require('./../models/user.model');
 const users = {};
 
 const usersData = [
@@ -37,10 +38,26 @@ users.getAllUsers = (req, res) => {
     res.json(usersData);
 };
 
-users.createUser = (req, res) => {
+users.createUser = async (req, res) => {
   const body = req.body;
 
-  // Validación de campos requeridos
+  try {
+    const user = new User({
+      name: "Omar",
+      lastName: "Salas",
+      age: 26,
+      birth: new Date().toISOString(),
+    });
+  
+    await user.save();
+  
+    res.json(user);
+  } catch (error) {
+    res.json({ error });
+  }
+  
+
+  /* // Validación de campos requeridos
   if (!body.email || !body.password || !body.role) {
     res.status(400).send('Ingresa todas las propiedades');
   }
@@ -58,7 +75,7 @@ users.createUser = (req, res) => {
     };
     usersData.push(user);
     res.json(user);
-  }
+  } */
 }
 
 users.deleteUser = (req, res) => {

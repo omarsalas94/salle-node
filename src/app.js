@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const path = require('path');
 var cors = require('cors')
+const mongoose = require('mongoose');
 
 // Configuraciones
 app.set('port', process.env.PORT || 3000);
@@ -24,6 +25,13 @@ function isLogged(req, res, next) {
 app.use(isLogged);
 
 app.use(morgan('dev'));
+
+mongoose.connect('mongodb://localhost:27017/SalleApp')
+    .then((db) => {
+        console.log('Conectado a mongodb ');
+    }).catch((error) => {
+        console.log('No se pudo conectar a mongodb: ', error);
+    });
 
 app.use('/products', productRoute);
 app.use('/users', userRoute);
