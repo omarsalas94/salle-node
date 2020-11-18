@@ -39,18 +39,17 @@ users.getAllUsers = (req, res) => {
 };
 
 users.createUser = async (req, res) => {
-  const body = req.body;
+  let body = req.body;
+  // En body solo se envia email y password
+  body = {
+    ...body, 
+    age: 26,
+    gender: 'male'
+  };
 
   try {
-    const user = new User({
-      name: "Omar",
-      lastName: "Salas",
-      age: 26,
-      birth: new Date().toISOString(),
-    });
-  
+    const user = new User(body);
     await user.save();
-  
     res.json(user);
   } catch (error) {
     res.json({ error });
