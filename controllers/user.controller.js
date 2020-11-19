@@ -1,41 +1,16 @@
 const User = require('./../models/user.model');
 const users = {};
 
-const usersData = [
-    {
-      id: 1,
-      email: 'omar.salas@jynsystems.com',
-      password: '123',
-      role: 'teacher',
-    },
-    {
-      id: 2,
-      email: 'andres@jynsystems.com',
-      password: '123',
-      role: 'student',
-    },
-    {
-      id: 3,
-      email: 'luis@jynsystems.com',
-      password: '123',
-      role: 'student',
-    },
-    {
-      id: 4,
-      email: 'felix@jynsystems.com',
-      password: '123',
-      role: 'teacher',
-    },
-    {
-      id: 5,
-      email: 'daniel@jynsystems.com',
-      password: '123',
-      role: 'teacher',
-    },
-  ];
-
-users.getAllUsers = (req, res) => {
-    res.json(usersData);
+users.getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find({});
+    // const user = await User.findById("5fb544c349ac663a42de0b6e");
+    // const user = await User.findOne({email: "omar.salas@jynsystems.com"});
+    res.json(users);
+  } catch (error) {
+    console.log(error);
+    res.json({error: 'No se pudieron obtener los usuarios'});
+  }
 };
 
 users.createUser = async (req, res) => {
@@ -77,15 +52,24 @@ users.createUser = async (req, res) => {
   } */
 }
 
-users.deleteUser = (req, res) => {
+users.deleteUser = async (req, res) => {
   const { userId } = req.params;
-  const index = usersData.findIndex((user) => user.id === +userId);
+
+  try {
+    const user = await User.deleteOne({ _id: userId });
+    res.json({success: 'El usuario se elimino correctamente.'});
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({error: 'El cliente no existe.'});
+  }
+
+  /* const index = usersData.findIndex((user) => user.id === +userId);
   if (index === -1) {
     res.status(400).send({error: 'Usuario no encontrado'});
   } else {
     usersData.splice(index, 1);
     res.json({message: 'Usuario eliminado'});
-  }
+  } */
 }
 
 users.updateUser = (req, res) => {
