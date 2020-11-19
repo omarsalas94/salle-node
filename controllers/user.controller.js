@@ -20,7 +20,8 @@ users.createUser = async (req, res) => {
   body = {
     ...body, 
     age: 26,
-    gender: 'male'
+    gender: 'male',
+    email: 'juanperez'
   };
 
   try {

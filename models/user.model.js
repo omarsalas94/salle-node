@@ -7,16 +7,19 @@ const User = new Schema({
         required: true,
         validate: {
             validator: async function(value) {
+                // Validaciones personalizadas
                 return new Promise((resolve, reject) => {
                     setTimeout(() => {
                         if (value && value.includes('@')) {
                             resolve(true);
                         } else {
-                            reject(false);
+                            resolve(false);
                         }
                     }, 500);
                 });
-            }
+            },
+            message: `La propiedad no es válido`
+            // message: (prop) => `La propiedad ${prop.value} no es válido` - Solo para validaciones síncronas
         }
     },
     age: {
