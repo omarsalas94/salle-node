@@ -74,11 +74,22 @@ users.deleteUser = async (req, res) => {
   } */
 }
 
-users.updateUser = (req, res) => {
+users.updateUser = async (req, res) => {
+  // Obtiene el parámetro userId
   const { userId } = req.params;
+  // Obtiene el cuerpo de la petición
   const body = req.body;
 
-  const index = usersData.findIndex((user) => user.id === +userId);
+  try {
+    console.log('param: ', userId);
+    console.log('boyd: ', body);
+    const user = await User.update({_id: userId}, body);
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({error});
+  }
+
+  /* const index = usersData.findIndex((user) => user.id === +userId);
   if (index === -1) {
     res.status(400).send({error: 'Usuario no encontrado'});
   } else {
@@ -88,9 +99,20 @@ users.updateUser = (req, res) => {
     };
     usersData[index] = user;
     res.json(user);
-  }
+  } */
   
 }
+
+users.getUserById = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    let user = await User.findById(userId);
+    res.json(user);
+  } catch (error) {
+    res.json({error});
+  }
+};
 
 
 module.exports = users;
