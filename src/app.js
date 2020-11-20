@@ -11,6 +11,7 @@ const mongoose = require('mongoose');
 // Archivo de rutas
 const productRoute = require('../routes/product.route.js');
 const userRoute = require('../routes/user.route');
+const queryRoute = require('../routes/query.route');
 // - Archivo de rutas
 
 // Configuraciones
@@ -34,7 +35,7 @@ app.use(morgan('dev')); // Devuelve algunos datos de la petición
 
 // Conexión a MongoDB
 // mongodb://users:password@host:port/database 
-mongoose.connect('mongodb://localhost:27017/SalleApp')
+mongoose.connect('mongodb://localhost:27017/drivingLesson')
     .then((db) => {
         console.log('Conectado a mongodb ');
     }).catch((error) => {
@@ -43,35 +44,7 @@ mongoose.connect('mongodb://localhost:27017/SalleApp')
 // - Conexión a MongoDB
 
 // Rutas
-/* const userModel = require('../models/user.model');
-app.get('/testMongo', async (req, res) => {
-    // Formas de hacer consultas con mongoose
-    // try {
-    //     const users = await userModel.find({}); 
-    //     res.json(users);
-    // } catch (error) {
-    //     res.json({error});
-    // }
-
-    // userModel.find({}, 'email', (error, users) => {
-    //     if (error && !users) {
-    //         res.json({error});
-    //     } else {
-    //         res.json(users);
-
-    //     }
-    // });
-
-    // const users = userModel.find({});
-    // users.exec((error, data) => {
-    //     if (error) {
-    //         res.json({error});
-    //     } else {
-    //         res.json(data);
-    //     }
-    // });
-}); */
-
+app.use('/queries', queryRoute)
 app.use('/products', productRoute);
 app.use('/users', userRoute);
 // - Rutas
