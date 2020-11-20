@@ -35,7 +35,9 @@ app.use(morgan('dev')); // Devuelve algunos datos de la petición
 
 // Conexión a MongoDB
 // mongodb://users:password@host:port/database 
-mongoose.connect('mongodb://localhost:27017/drivingLesson')
+// Si quieres probar las consultas de la ruta queries hay que usar la base de datos drivingLesson
+// Si quieres probar el crud con angular cambiar por la base de datos SalleApp
+mongoose.connect('mongodb://localhost:27017/SalleApp')
     .then((db) => {
         console.log('Conectado a mongodb ');
     }).catch((error) => {
